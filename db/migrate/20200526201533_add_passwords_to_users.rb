@@ -1,7 +1,7 @@
-class AddPasswordsToUsers < ActiveRecord::Migration[6.0]
+class AddPasswordsToUsers < ActiveRecord::Migration[5.2]
   def change
     add_column :users, :password_digest, :string
   end
 end
 
-# rake db:migrate:redo VERSION=20200526201533
+# rake db:migrate:redo VERSION=20200528033948

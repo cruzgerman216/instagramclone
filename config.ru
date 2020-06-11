@@ -10,3 +10,5 @@ use Rack::MethodOverride
 use SessionsController
 use UserController
 run ApplicationController
+
+# db:create_migration NAME=create_users

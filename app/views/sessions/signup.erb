@@ -1,17 +1,19 @@
 <h1>Sign Up</h1>
-
+<%if @error%>
+    <p>This <%=@error%> is already taken</p>
+<%end%>
 <form action="/signup" method="POST">
     <label for="email">Email: </label>
     <input type="text" name="email" id="email"/>
 
     <label for="First">First Name: </label>
-    <input type="text" name="first" id="email"/>
+    <input type="text" name="firstname" id="firstname"/>
 
     <label for="Last">Last Name: </label>
-    <input type="text" name="last" id="email"/>
+    <input type="text" name="lastname" id="lastname"/>
 
     <label for="Username">Username: </label>
-    <input type="text" name="username" id="email"/>
+    <input type="text" name="username" id="username"/>
 
     <label for="Password">Password: </label>
     <input type="password" name="password" id="password"/>

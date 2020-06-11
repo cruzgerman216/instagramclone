@@ -1,0 +1,38 @@
+<form action="/" method="GET">
+<input type="submit" value="home page">
+</form>
+
+<%if @user.profile_img%>
+    test 
+<%else%>
+    <a href="/user/<%=@user.username%>"><img src="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"/></a>
+<%end%>
+
+<p><%=@user.username%></p>
+<p><%=@user.firstname%> <%=@user.lastname%></p>
+<p><a href="/user/<%=@user.username%>/following"><%=@user.following.size%> Following</a></p>
+<p><a href="/user/<%=@user.username%>/followers"><%=@user.followers.size%> Followers</a></p>
+
+<h3>Posts</h3>
+<%# if this is your profile %>
+<%if @user.id == @you.id%>
+<form action="" method="POST">
+<input type="submit" value="Edit Profile">
+</form>
+
+<%else%>
+<%# if this not your profile %>
+    <%if @you.following.include?(@user)%>
+           <form action="/user/<%=@user.username%>" method="POST">
+               <input type="hidden" name="unfollow" value=<%=@user.id%>>
+               <input type="submit" value="Unfollow">
+           </form>
+   <% else%>
+          <form action="/user/<%=@user.username%>" method="POST">
+               <input type="hidden" name="follow" value=<%=@user.id%>>
+               <input type="submit" value="Follow">
+        </form>
+   <% end%>
+<%end%>
+
+     

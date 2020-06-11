@@ -1,12 +1,26 @@
-<p>You are logged in as <%=session[:email] %></p>
- 
-    <h1>Upload Image</h1>
-        
-        <form action="/test" method="POST" enctype="multipart/form-data">
-            <input type="file" name="file">
-            <input type="submit" value="Upload image">
-        </form>
-
-<form action="/logout" method="get">
-<button>Logout</button>
+<form action="/" method="GET">
+<input type="submit" value="home page">
 </form>
+
+<img src="image" /> 
+<form action="/user/<%=@user.username%>" method="GET">
+<input type="submit" value="Profile">
+</form>
+
+
+<p><%=@user.username%></p>
+<p><%=@user.firstname%> <%=@user.lastname%></p>
+
+
+<h4>Suggestions For You</h4>
+<% @users.map do |user|%>
+    <p><a href="/user/<%=user.username%>"><%=user.username%></a></p>
+       <form action="/user/<%=user.username%>" method="POST">
+               <input type="hidden" name="follow" value=<%=user.id%>>
+               <input type="submit" value="Follow">
+        </form>
+<%end%>
+
+     <form action="/logout" method="get">
+     <button>Logout</button>
+     </form>
