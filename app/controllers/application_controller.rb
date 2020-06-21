@@ -1,6 +1,5 @@
 require 'net/http'
 require 'uri'
-# puts valid_image?('https://www.google.com/search?q4568M')
 class ApplicationController < Sinatra::Base
     configure do
         set :public_folder, 'public'
@@ -8,24 +7,69 @@ class ApplicationController < Sinatra::Base
         enable :sessions
         set :session_secret, "mexican_grill_user"
     end
-    get '/test' do
-        @url = params[:url]
-        erb :'/test'
-    end
-
-    get '/:url' do
-        @url = params[:url]
-        erb :'/users/unavailable'
-    end
 
     get '/' do
-        if  session[:email] && session[:email].empty?
+        if  session[:email] == nil
             redirect "/login"
         else
-            @user = User.find_by(:email => session[:email]) 
+            puts session[:email]
+            @you = User.find_by(:email => session[:email]) 
 
+            #grabbing homepage posts
+            @posts = []
+            @posts += @you.posts
+            @you.following.map do |user|
+                @posts += user.posts
+            end
+            @posts = @posts.sort { |a,b| b.created_at <=> a.created_at}
+            @posts.map{|post| puts post.created_at}
             users_length = User.all.length 
 
+            @users = []
+            # puts "length of user base #{users_length}"
+            i = 0
+            while @users.length < 5
+                random_user = User.all[rand(0..users_length-1)]
+                if !@you.following.include?(random_user) && !@users.include?(random_user) && random_user != @you
+                    @users << random_user
+                end
+                i += 1
+                if i == 10
+                    break
+                end
+            end
+            erb :"home/homepage"
+        end
+    end
+
+    post '/' do
+        puts params
+        @user = User.find_by(:email => session[:email]) 
+        p = Post.find(params[:post])
+        if Heart.all.select{|a| @user.hearts.include?(a) && p.hearts.include?(a)}.empty?
+            h = Heart.new 
+            h.user = @user 
+            h.post = p
+            p.save 
+            @user.save 
+            h.save 
+        else
+            Heart.find(params[:heart]).destroy
+        end
+            redirect to "/"
+    end
+
+    post '/post' do
+        @user = User.find_by(:email => session[:email]) 
+        if valid_image?(params[:url])
+            post = Post.new
+            post.img_url = params[:url]
+            post.description = params[:description]
+            @user.posts << post 
+            @user.save
+            redirect to '/'
+        else 
+            users_length = User.all.length 
             @users = []
             # puts "length of user base #{users_length}"
             i = 0
@@ -39,10 +83,7 @@ class ApplicationController < Sinatra::Base
                     break
                 end
             end
-            #  @users.map do |user|
-            #     puts user.id
-            #     puts user
-            #  end
+            @error = "Invalid URL"
             erb :"home/homepage"
         end
     end
@@ -79,7 +120,12 @@ class ApplicationController < Sinatra::Base
                 uri = URI.parse(URI.encode(image_url))
                 res = Net::HTTP.get_response(uri)
                 puts res.code
-                return true
+                if res.code == "200"
+                    return true 
+
+                else 
+                    return false
+                end
             else
                 return false
             end

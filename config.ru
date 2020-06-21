@@ -12,3 +12,4 @@ use UserController
 run ApplicationController
 
 # db:create_migration NAME=create_users
+# remove_column :followers, :account_id

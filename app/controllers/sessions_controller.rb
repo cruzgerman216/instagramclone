@@ -38,6 +38,7 @@ class SessionsController < ApplicationController
             @user.password = params[:password]
             @user.firstname = params[:firstname]
             @user.lastname = params[:lastname]
+            @user.profile_img = "https://pecb.com/conferences/wp-content/uploads/2017/10/no-profile-picture.jpg"
             if @user.save 
                 redirect '/login'
             else

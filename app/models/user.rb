@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+    include BCrypt
+
     has_many :follows
 
     has_many :fr, foreign_key: :following_id, class_name: 'Follow'
@@ -9,5 +11,6 @@ class User < ActiveRecord::Base
 
     has_many :posts
     has_many :comments, through: :posts
+    has_many :hearts
     has_secure_password
 end

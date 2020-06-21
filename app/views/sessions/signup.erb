@@ -1,22 +1,155 @@
-<h1>Sign Up</h1>
-<%if @error%>
-    <p>This <%=@error%> is already taken</p>
-<%end%>
-<form action="/signup" method="POST">
-    <label for="email">Email: </label>
-    <input type="text" name="email" id="email"/>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-    <label for="First">First Name: </label>
-    <input type="text" name="firstname" id="firstname"/>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      .carousel-item {
+        height: 300px;
+        overflow: hidden;
+        width: 100%;
+      }
+      .carousel-item img {
+        width: 100%;
+      }
+    </style>
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <div
+      class="container"
+      style="
+        margin-top: 10px;
+        width: 28%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      "
+    >
+      <div class="row align-items-center">
+        <div class="col">
+          <form style="border: 1px solid rgb(231, 223, 223); padding: 10px;" action="/signup" method="POST">
+            <h4 style="text-align: center;">Instagram</h4>
+            <p style="text-align: center;">
+              Sign up to see photos and videos from your friends.
+            </p>
+        <%if @error%>
+            <p style="color:red">This <%=@error%> is already taken</p>
+        <%end%>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                aria-describedby="emailHelp"
+                placeholder="Email"
+              />
+            </div>
+            <div class="form-group" style="font-size: 16px;">
+              <label for="exampleInputEmail1">First Name</label>
+              <input
+                class="form-control"
+                name="firstname"
+                id="firstname"
+                aria-describedby="emailHelp"
+                placeholder="First Name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Last Name</label>
+              <input
+                class="form-control"
+                name="lastname" id="lastname"
+                aria-describedby="emailHelp"
+                placeholder="Last Name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Username</label>
+              <input
+                class="form-control"
+                name="username" id="username"
+                aria-describedby="emailHelp"
+                placeholder=" Username"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                name="password" id="password"
+                placeholder="Password"
+              />
+            </div>
 
-    <label for="Last">Last Name: </label>
-    <input type="text" name="lastname" id="lastname"/>
+            <button type="submit" class="btn btn-primary">Sign up</button>
+            <small
+              style="text-align: center;"
+              id="emailHelp"
+              class="form-text text-muted"
+              >By signing up, you agree to our Terms, Data Policy and Cookies
+              Policy.</small
+            >
+          </form>
 
-    <label for="Username">Username: </label>
-    <input type="text" name="username" id="username"/>
+          <div
+            style="
+              border: 1px solid rgb(231, 223, 223);
+              padding: 10px;
+              text-align: center;
+              margin-top: 15px;
+            "
+          >
+            <p>
+              Have an account?
+              <a href="/" style="color: blue;">Log in</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div style="padding: 10px; text-align: center; margin-top: 15px;">
+        <p>
+          @ 2020 Codegram FROM GERMAN CRUZ
+        </p>
+      </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
 
-    <label for="Password">Password: </label>
-    <input type="password" name="password" id="password"/>
-
-    <input type="submit"/>
-</form>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

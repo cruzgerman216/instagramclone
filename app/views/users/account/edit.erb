@@ -30,13 +30,10 @@
         background-color: rgba(248, 248, 248, 0.726);
       }
 
-      .post {
-        opacity: 0.75;
+      .button {
+
       }
 
-      .post:hover {
-        opacity: 1;
-      }
       .button:hover{
         background: none;
         border:none;
@@ -170,85 +167,113 @@
     </nav>
 
 
-    <!--Profile -->
+    <!--Edit -->
 
-<div class="container" style="margin-top:100px; width:72% margin-bottom:25px">
+<div class="container" style="margin-top:100px; margin-bottom:25px; width:60%"  >
     <div class="row" >
-        <div class="col-4" style="text-align:center;" >
-            <img 
-            class="rounded-circle"
-            width="40%"
-            height="70%"
-            src="<%=@user.profile_img%>"
-               data-target="#profileModal"
-              data-toggle="modal"
-          />
+        <div class="col-4" >
+            <div class="row">
+                <a href="/accounts/edit">Edit Profile</a>
+            </div>
+            <div class="row">
+                <a href="/accounts/password/change/">Change Password</a>
+            </div>
+            <div class="row">
+                Privacy
+            </div>
         </div>
-        <div class="col-4">
-            <div class="row" style="margin-bottom: 10px;">
-                <div class="col-7" style="font-size: 2rem"><%=@user.username%></div>
-                        <%# if this is your profile %>
-                        <%if @user.id == @you.id%>
-                            <div class="col-5 " style="text-align:center;"><a style="padding-right: 5px; text-decoration: none;"href="/accounts/edit">
-                            <button style="cursor: pointer; font-size: 12px; width: rem; height: 1.8rem; background: rgba(var(--b3f,250,250,250),1); border: solid 1px rgba(var(--b6a,219,219,219),1);">Edit Profile</button>
-                            </a><svg  style="cursor: pointer;" data-target="#settingsmodal"
-                                data-toggle="modal" class="bi bi-gear-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 0 0-5.86 2.929 2.929 0 0 0 0 5.858z"/>
-                            </svg></div>
-                        <%else%>
-                        <%# if this not your profile %>
-                            <%if @you.following.include?(@user)%>
-                                <form action="/user/<%=@user.username%>" method="POST">
-                                    <input type="hidden" name="unfollow" value=<%=@user.id%>>
-                                    <input type="submit" value="Unfollow">
-                                </form>
-                        <% else%>
-                                <form action="/user/<%=@user.username%>" method="POST">
-                                    <input type="hidden" name="follow" value=<%=@user.id%>>
-                                    <input type="submit" value="Follow">
-                                </form>
-                        <% end%>
+        <div class="col-8">  
+         <form action="/accounts/edit" method="POST">
+         <input type="hidden" name="user" value=<%=@you.id%>>
+            <div class="container">
+               <div class="row">
+                    <div class="col-3">
+                            <img style="width:100%; border-radius:100%;"  src="<%=@you.profile_img%>"/>
+                    </div>
+                    <div class="col-9" >
+                            <p ><%=@you.username%></p>
+                            <p data-target="#uploadModal"
+              data-toggle="modal" >Change Profile Photo</p>
+                    </div>
+               </div>
+                    <div class="row">
+                        <div class="col-3">
+                                First Name
+                        </div>
+                        <div class="col-9" >
+                                <input style="width:100%" value="<%=@you.firstname%>" class="form-control" name="firstname" id="firstname"
+                aria-describedby="emailHelp"
+                placeholder="First Name"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                                Last Name
+                        </div>
+                        <div class="col-9" >
+                                <input style="width:100%" value="<%=@you.lastname%>"
+                                 class="form-control"
+                name="lastname"
+                id="lastname"
+                aria-describedby="emailHelp"
+                placeholder="lastname"/>
+                                <div style="font-size: .75rem; color: grey">
+                                    Help people discover your account by using the name you're known by: either your full name, nickname, or business name.
+                                </div>
+                        </div>
+                    </div>
+                 <div class="row">
+                    <div class="col-3">
+                            Username
+                    </div>
+                    <div class="col-9" >
+                            <input style="width:100%" value="<%=@you.username%>" 
+                                            class="form-control"
+                name="username" id="username"
+                aria-describedby="emailHelp"
+                placeholder=" Username"
+                />
+                    </div>
+               </div>
+                    <div class="row">
+                        <div class="col-3">
+                                Bio
+                        </div>
+                        <div class="col-9" >
+                                <input style="width:100%" value="<%=@you.bio%>"
+                                                class="form-control"
+                name="bio" id="bio"
+                aria-describedby="emailHelp"
+                placeholder="bio"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                                Email
+                        </div>
+                        <div class="col-9" >
+                                <input style="width:100%" value="<%=@you.email%>" type="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                aria-describedby="emailHelp"
+                                placeholder="Email"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                           <div class="col-3">
+                        </div>
+                        <div class="col-9" >
+                          <button type="submit">Submit</button>
+                           <%if @error%>
+                            <p style="color:red;"><%=@error%></p>
                         <%end%>
-              </div>
-      
-           
-              <!--posts, followers, following-->
-              <div class="row">
-                <div class="col-6 col-md-4"><%=@you.posts.length%> posts</div>
-                <div data-target="#followersmodal"
-              data-toggle="modal" class="col-6 col-md-4"><%=@user.followers.size%> Followers</div>
-                <div class="col-6 col-md-4" data-target="#followingmodal"
-              data-toggle="modal"><%=@user.following.size%> Following</div>
-              </div>
-              
-              <!-- Bio -->
-              <div class="row">
-                <div class="col-6"><b><%=@user.firstname%> <%=@user.lastname%></b></div>
-              </div>
-              <div class="row">
-                <div class="col-12"><%=@user.bio%></div>
-              </div>
+                        </div>
+                    </div>
+            </div>  
+         </form>
         </div>
     </div>
-</div>
-
-
-<div class="container" style="width:73%">
-    <div class="row">
-
-        <%@user.posts.map do |post|%>
-        <div class="col-4">
-        <a href="/post/<%=post.id%>">
-            <img
-            class="post"
-            width="100%"
-            height="100%"
-            src="<%=post.img_url%>"
-          />
-          </a>
-        </div>
-        <%end%>
-      </div>
 </div>
 
 
@@ -305,46 +330,6 @@
       </div>
     </div>
 
-
-<!--Modal for settings -->
-       <div
-      class="modal fade"
-      id="settingsmodal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-<div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-body">
-         <a href="/logout">
-           <p
-              style="
-                text-align: center;
-                border-bottom: 1px solid rgb(212, 212, 212);
-                padding-bottom: 10px;
-              "
-            >
-              Log Out
-            </p>
-         </a>
-            <p
-              style="
-                text-align: center;
-                border-bottom: 1px solid rgb(212, 212, 212);
-                padding-bottom: 10px;
-              "
-              data-dismiss="modal"
-            >
-              cancel
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
  <!-- Modal for change profile image -->
  <div
       class="modal fade "
@@ -395,124 +380,6 @@
       </div>
     </div>
 
-</div class="container">
-    <!-- Followers-->
-    <div
-      class="modal fade"
-      id="followersmodal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-body">
-          <div class="row">
-            <div style="text-align: center" class="col-11">
-            Followers
-            </div>
-            <div class="col-1">
-                        <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-          </div>
-
-          <%@user.followers.map do |user|%>
-           <div class="row">
-            <div class="col-1">
-              <img width="30vh" src="<%=user.profile_img%>"/>
-            </div>
-
-            <div class="col-8">
-              <%=user.username%>
-            </div>
-
-            <div class="col-3">
-            <%if @user.following.include?(user)%>
-                  <form action="/user/<%=user.username%>" method="POST">
-                                    <input type="hidden" name="unfollow" value=<%=user.id%>>
-                                    <input type="submit" value="following">
-                                </form>
-              <%else%>
-                    <form action="/user/<%=user.username%>" method="POST">
-                                    <input type="hidden" name="follow" value=<%=user.id%>>
-                                    <input type="submit" value="follow">
-                                </form>
-            <%end%>
-            </div>
-           </div>
-          <%end%>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-</div class="container">
-    <!-- Following -->
-    <div
-      class="modal fade"
-      id="followingmodal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-body">
-          <div class="row">
-            <div style="text-align: center" class="col-11">
-            Followers
-            </div>
-            <div class="col-1">
-                        <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-          </div>
-
-          <%@user.following.map do |user|%>
-           <div class="row">
-            <div class="col-1">
-              <img width="30vh" src="<%=user.profile_img%>"/>
-            </div>
-
-            <div class="col-8">
-              <%=user.username%>
-            </div>
-
-            <div class="col-3">
-            <%if @user.following.include?(user)%>
-               <form action="/user/<%=user.username%>" method="POST">
-                                    <input type="hidden" name="unfollow" value=<%=user.id%>>
-                                    <input type="submit" value="following">
-                                </form>
-              <%else%>
-                <form action="/user/<%=user.username%>" method="POST">
-                                    <input type="hidden" name="follow" value=<%=user.id%>>
-                                    <input type="submit" value="follow">
-                                </form>
-            <%end%>
-            </div>
-           </div>
-          <%end%>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
