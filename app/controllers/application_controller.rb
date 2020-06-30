@@ -5,14 +5,23 @@ class ApplicationController < Sinatra::Base
         set :public_folder, 'public'
         set :views, 'app/views'
         enable :sessions
-        set :session_secret, "mexican_grill_user"
+        set :session_secret, "instagram"
     end
 
+    get '/:url' do
+        if  session[:email] == nil || session[:email].empty?
+            @error = "Page unavailable, please login or signup."
+            erb :"/sessions/login"
+        else
+            @you = User.find_by(:email => session[:email]) 
+            erb :"users/unavailable"
+        end
+        
+    end
     get '/' do
-        if  session[:email] == nil
+        if  session[:email] == nil || session[:email].empty?
             redirect "/login"
         else
-            puts session[:email]
             @you = User.find_by(:email => session[:email]) 
 
             #grabbing homepage posts
@@ -22,7 +31,6 @@ class ApplicationController < Sinatra::Base
                 @posts += user.posts
             end
             @posts = @posts.sort { |a,b| b.created_at <=> a.created_at}
-            @posts.map{|post| puts post.created_at}
             users_length = User.all.length 
 
             @users = []
@@ -43,7 +51,6 @@ class ApplicationController < Sinatra::Base
     end
 
     post '/' do
-        puts params
         @user = User.find_by(:email => session[:email]) 
         p = Post.find(params[:post])
         if Heart.all.select{|a| @user.hearts.include?(a) && p.hearts.include?(a)}.empty?
@@ -67,39 +74,17 @@ class ApplicationController < Sinatra::Base
             post.description = params[:description]
             @user.posts << post 
             @user.save
-            redirect to '/'
-        else 
-            users_length = User.all.length 
-            @users = []
-            # puts "length of user base #{users_length}"
-            i = 0
-            while @users.length < 5
-                random_user = User.all[rand(0..users_length-1)]
-                if !@user.following.include?(random_user) && !@users.include?(random_user) && random_user != @user
-                    @users << random_user
-                end
-                i += 1
-                if i == 10
-                    break
-                end
-            end
-            @error = "Invalid URL"
-            erb :"home/homepage"
         end
+        redirect to '/'
     end
 
     helpers do 
-        def logged_in?
-            !!session[:email]
-        end
-
         def login(email,password)
             user = User.find_by(:email => email) 
             if user && user.authenticate(password)
               session[:email] = email
               redirect to '/'
             else
-                puts"test"
                 redirect'/login'
             end
         end
@@ -109,8 +94,11 @@ class ApplicationController < Sinatra::Base
         end
 
         def working_url?(url)
+            # parse makes a uri http object
             uri = URI.parse(url)
+            # is a valid http object and if the object gives us a host 
             uri.is_a?(URI::HTTP) && !uri.host.nil?
+            # if valid url return true, otherwise return false
             rescue URI::InvalidURIError 
             false
         end
@@ -119,7 +107,6 @@ class ApplicationController < Sinatra::Base
             if working_url?(image_url)
                 uri = URI.parse(URI.encode(image_url))
                 res = Net::HTTP.get_response(uri)
-                puts res.code
                 if res.code == "200"
                     return true 
 
@@ -132,4 +119,5 @@ class ApplicationController < Sinatra::Base
         end
         
     end
+    
 end

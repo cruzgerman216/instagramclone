@@ -1,8 +1,6 @@
 class User < ActiveRecord::Base
     include BCrypt
-
-    has_many :follows
-
+    # has_many :follows
     has_many :fr, foreign_key: :following_id, class_name: 'Follow'
     has_many :followers, through: :fr, source: :follower
 

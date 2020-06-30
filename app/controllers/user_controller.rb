@@ -31,29 +31,6 @@ class UserController < ApplicationController
         end
     end
 
-
-    get '/user/:username/followers' do
-        @user = User.find_by(:username => params[:username]) 
-        puts @user.followers[0].username
-        if @user 
-            erb :'/users/followers'
-        else
-            @url = params[:url]
-            erb :'/users/unavailable'
-        end
-    end
-
-    get '/user/:username/following' do
-        @user = User.find_by(:username => params[:username]) 
-        puts params
-        if @user 
-            erb :'/users/following'
-        else
-            @url = params[:url]
-            erb :'/users/unavailable'
-        end
-    end
-
     get '/post/:id' do
         @you = User.find_by(:email => session[:email])
         @post = Post.find_by(:id => params[:id])
@@ -76,7 +53,7 @@ class UserController < ApplicationController
         erb :'/users/account/passwordchange'    
     end
 
-    post '/accounts/password/change' do 
+    patch '/accounts/password/change' do 
         @you = User.find_by(:email=>session[:email])
         if @you.authenticate(params[:oldpassword])
             if params[:newpassword] == params[:confirmpassword]
@@ -92,11 +69,12 @@ class UserController < ApplicationController
             erb :'/users/account/passwordchange'
         end
     end
-    post '/accounts/edit' do 
+    patch '/accounts/edit' do 
         @duplicate_email= User.find_by(:email=>params[:email])
         @duplicate_username= User.find_by(:username=>params[:username])
         id = params[:user]
         @you = User.find(id)
+        
         puts params
         if @duplicate_email && @duplicate_email.email != @you.email
             @error = "Email is already taken."
@@ -136,7 +114,7 @@ class UserController < ApplicationController
         end
     end
 
-    post '/comment/delete' do
+    delete '/comment/delete' do
         @you = User.find_by(:email => session[:email])
         @post = Post.find(params[:postid])
         @user = @post.user
@@ -148,6 +126,7 @@ class UserController < ApplicationController
         params[:email].clear
         redirect to '/login'
     end
+    
     #FRIENDING
     post '/user/:username' do
         puts params
@@ -155,7 +134,6 @@ class UserController < ApplicationController
           if session[:email] && session[:email].empty?
             redirect to '/login'
         end
-        puts params
         if params[:follow]
             @user2 = User.find(params[:follow])
             @user1.following << @user2

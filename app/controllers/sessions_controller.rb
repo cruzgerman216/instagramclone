@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
         if session[:email] && !session[:email].empty?
             redirect to "/"
         end
-        erb :"sessions/signup"
+        erb :"sessions/signup", :layout => false
     end
 
  # TO DO

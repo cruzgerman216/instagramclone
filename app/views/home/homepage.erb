@@ -15,6 +15,7 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link rel="icon" width="100%"href="https://toppng.com/public/uploads/preview/ew-instagram-logo-transparent-related-keywords-logo-instagram-vector-2017-115629178687gobkrzwak.png">
     <link href="https://fonts.googleapis.com/css2?family=Bilbo+Swash+Caps&display=swap" rel="stylesheet">
     <script
       src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
@@ -23,28 +24,14 @@
     ></script>
 
     <style>
-      * {
-
-      }
       body {
         background-color: rgba(248, 248, 248, 0.726);
       }
-
-      .button {
-
-      }
-
-      .button:hover{
-        background: none;
-        border:none;
-      }
     </style>
-    <title>Hello, world!</title>
+    <title>Instagram</title>
   </head>
   <body>
     <!--icons https://icons.getbootstrap.com/-->
-
-    
     <nav
       class="navbar fixed-top navbar-expand-lg navbar-light"
       style="
@@ -163,12 +150,7 @@
         </div>
       </a>
     </div>
-
     </nav>
-
-
-
-
 
     <div class="container" style="padding-top: 100px;  width:72%">
       <div class="row">
@@ -254,15 +236,16 @@
             
             <%if post.user != @you%>
     <p
-              style="
+            >
+                <form   style="
                 text-align: center;
                 border-bottom: 1px solid rgb(212, 212, 212);
                 padding-bottom: 10px;
-              "
-            >
-                <form action="/user/<%=post.user.username%>" method="POST">
-                                    <input type="hidden" name="unfollow" value=<%=post.user.id%>>
-                                    <input type="submit" value="Unfollow">
+                
+              " action="/user/<%=post.user.username%>" method="POST">
+                                    <input type="hidden" name=unfollow value=<%=post.user.id%>>
+                                    <input style="background-color: white;
+                border: none; cursor: pointer;" type="submit" value="Unfollow">
                                 </form>
             </p>
             <%end%>
@@ -273,7 +256,7 @@
                 padding-bottom: 10px;
               "
             >
-              <a href="/post/<%=post.id%>">Go to post </a>
+              <a  style="text-decoration: none; color: black; cursor: pointer;"href="/post/<%=post.id%>">Go to post </a>
             </p>
             <p
               style="

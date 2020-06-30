@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_18_064431) do
+ActiveRecord::Schema.define(version: 2020_06_21_041434) do
 
   create_table "comments", force: :cascade do |t|
     t.string "comment"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2020_06_18_064431) do
     t.string "username"
     t.string "profile_img"
     t.string "bio"
+    t.boolean "privacy"
   end
 
 end

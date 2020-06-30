@@ -23,28 +23,18 @@
     ></script>
 
     <style>
-      * {
-
-      }
       body {
         background-color: rgba(248, 248, 248, 0.726);
       }
-
-      .button {
-
-      }
-
       .button:hover{
         background: none;
         border:none;
       }
     </style>
-    <title>Hello, world!</title>
+    <title>Post</title>
   </head>
   <body>
     <!--icons https://icons.getbootstrap.com/-->
-
-    
     <nav
       class="navbar fixed-top navbar-expand-lg navbar-light"
       style="
@@ -166,7 +156,6 @@
 
     </nav>
 
-
     <div class="container" style="padding-top: 100px; max-width: 975px;">
     <div class="row">
         <div class="col-7">
@@ -255,6 +244,7 @@
         <div class="modal-content">
           <div class="modal-body">
             <form action="/comment/delete" method="POST">
+            <input id="hidden" type="hidden" name="_method" value="delete">
              <input type="hidden" name="commentid" value=<%=c.id%>>
              <input type="hidden" name="postid" value=<%=@post.id%>>
             

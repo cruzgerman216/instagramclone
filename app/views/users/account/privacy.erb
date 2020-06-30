@@ -166,52 +166,136 @@
 
     </nav>
 
-Sorry, this addresss is not available.
-<p><a href="/">Return back to homepage</a><p>
-    <!-- Modal for each post-->
-    <div
-      class="modal fade"
-      id="postModal"
+
+    <!--Edit -->
+
+<div class="container" style="margin-top:100px; margin-bottom:25px; width:60%"  >
+    <div class="row" >
+        <div class="col-4" >
+            <div class="row">
+                <a href="/accounts/edit">Edit Profile</a>
+            </div>
+            <div class="row">
+                <a href="/accounts/password/change/">Change Password</a>
+            </div>
+            <div class="row">
+                Privacy
+            </div>
+        </div>
+        <div class="col-8">  
+         <form action="/accounts/edit" method="POST">
+                <h1>Account Privacy</h1>
+                <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"> Private account
+                <p>When your account is private, only people you approve can see your photos and videos on Instagram. Your existing followers won't be affected.</p>
+         </form>
+        </div>
+    </div>
+</div>
+
+
+ <!-- Modal for upload-->
+ <div
+      class="modal fade "
+      id="uploadModal"
       tabindex="-1"
       role="dialog"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-dialog " role="document">
         <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Enter Image address or video url
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="/post" method="POST">
+          <%if @error%>
+          <p style="text-align: center;"><%=@error%></p>
+          <%end%>
           <div class="modal-body">
-            <p
-              style="
-                text-align: center;
-                border-bottom: 1px solid rgb(212, 212, 212);
-                padding-bottom: 10px;
-              "
-            >
-              Unfollow
-            </p>
-            <p
-              style="
-                text-align: center;
-                border-bottom: 1px solid rgb(212, 212, 212);
-                padding-bottom: 10px;
-              "
-            >
-              Go to post
-            </p>
-            <p
-              style="
-                text-align: center;
-                border-bottom: 1px solid rgb(212, 212, 212);
-                padding-bottom: 10px;
-              "
+               <label for="Url">Url: </label>
+               <input type="text" name="url" id="url"/>
+          </div>
+          <div class="modal-body">
+               <label for="Description">Description: </label>
+               <input maxlength = "250" type="text" name="description" id="description"/>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
               data-dismiss="modal"
             >
-              cancel
-            </p>
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Post Image or Video Url
+            </button>
+            </form>
           </div>
         </div>
       </div>
     </div>
+
+ <!-- Modal for change profile image -->
+ <div
+      class="modal fade "
+      id="profileModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog " role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Change Profile Image
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="/user/profile_img" method="POST">
+          <%if @error%>
+          <p style="text-align: center;"><%=@error%></p>
+          <%end%>
+          <div class="modal-body">
+               <label for="Url">Url: </label>
+               <input type="text" name="url" id="url"/>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Post Image or Video Url
+            </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
@@ -232,5 +316,3 @@ Sorry, this addresss is not available.
     ></script>
   </body>
 </html>
-
-
