@@ -1,7 +1,4 @@
 class UserController < ApplicationController
-    get '/direct/inbox' do
-  
-    end
 
     get '/user/:username' do
         @user = User.find_by(:username => params[:username]) 

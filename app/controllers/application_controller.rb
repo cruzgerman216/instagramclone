@@ -1,11 +1,27 @@
 require 'net/http'
 require 'uri'
+# That reminds me, I don't have to include "redirect_if_not_logged_in" in every get response. The user can actually go to profile pages even when not logged in.
 class ApplicationController < Sinatra::Base
     configure do
         set :public_folder, 'public'
         set :views, 'app/views'
         enable :sessions
         set :session_secret, "instagram"
+    end
+    
+    get '/' do
+        if  session[:email] == nil || session[:email].empty?
+            redirect "/login"
+        else
+            @you = User.find_by(:email => session[:email]) 
+
+            # homepage posts
+            @posts = @you.homepage_posts
+            
+            # suggested friends 
+            @users = @you.suggest_friends()
+            erb :"home/homepage"
+        end
     end
 
     get '/:url' do
@@ -15,38 +31,6 @@ class ApplicationController < Sinatra::Base
         else
             @you = User.find_by(:email => session[:email]) 
             erb :"users/unavailable"
-        end
-        
-    end
-    get '/' do
-        if  session[:email] == nil || session[:email].empty?
-            redirect "/login"
-        else
-            @you = User.find_by(:email => session[:email]) 
-
-            #grabbing homepage posts
-            @posts = []
-            @posts += @you.posts
-            @you.following.map do |user|
-                @posts += user.posts
-            end
-            @posts = @posts.sort { |a,b| b.created_at <=> a.created_at}
-            users_length = User.all.length 
-
-            @users = []
-            # puts "length of user base #{users_length}"
-            i = 0
-            while @users.length < 5
-                random_user = User.all[rand(0..users_length-1)]
-                if !@you.following.include?(random_user) && !@users.include?(random_user) && random_user != @you
-                    @users << random_user
-                end
-                i += 1
-                if i == 10
-                    break
-                end
-            end
-            erb :"home/homepage"
         end
     end
 
@@ -67,13 +51,11 @@ class ApplicationController < Sinatra::Base
     end
 
     post '/post' do
+            puts "inside"
         @user = User.find_by(:email => session[:email]) 
-        if valid_image?(params[:url])
-            post = Post.new
-            post.img_url = params[:url]
-            post.description = params[:description]
-            @user.posts << post 
-            @user.save
+        if valid_image?(params[:img_url])
+            puts "test"
+            @user.posts.create(params)
         end
         redirect to '/'
     end
@@ -118,6 +100,9 @@ class ApplicationController < Sinatra::Base
             end
         end
         
+        def suggest_friends()
+
+        end
     end
     
 end

@@ -9,7 +9,7 @@
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
 # It's strongly recommended that you check this file into your version control system.
-
+# db:create_migration NAME=create_users
 ActiveRecord::Schema.define(version: 2020_06_21_041434) do
 
   create_table "comments", force: :cascade do |t|

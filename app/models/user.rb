@@ -11,4 +11,13 @@ class User < ActiveRecord::Base
     has_many :comments, through: :posts
     has_many :hearts
     has_secure_password
+
+    def suggest_friends() 
+        User.where('id != ?', self.id).order("RANDOM()").limit(5)
+    end
+
+    def homepage_posts() 
+        Post.where(:user_id => self.id).order(created_at: :desc)
+    end
+
 end
